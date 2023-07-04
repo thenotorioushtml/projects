@@ -1,4 +1,3 @@
-```
 # My Fun Projects Repository 🎉
 
 Welcome to my repository where I store all the coding projects that I work on for fun. This repo is a collection of various small projects, experiments, and code snippets, all created out of passion and curiosity.
@@ -52,4 +51,3 @@ If you want to get in contact or have any questions, feel free to reach out to m
 - LinkedIn: [Mark Yasashnyy](https://www.linkedin.com/in/markyasashinyy/)
 
 Thank you for checking out my repository! Don't forget to star ⭐ it if you like what you see! 😄
-```
