@@ -1,0 +1,81 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="container-vs">
+        <!--Left sidebar-->
+        <div class="left-sidebar">
+            <div class="imp-links">
+                <a href="#" class="button"><img src="{{url_for('static', filename ='images/news.png')}}"> Latest news</a>
+                <a href="#" class="button"><img src="{{url_for('static', filename ='images/friends.png')}}"> Friends</a>
+                <a href="#" class="button"><img src="{{url_for('static', filename ='images/group.png')}}"> Group</a>
+                <a href="#" class="button"> See more</a>
+            </div>
+            <div class="shortcut-links">
+                <p>Your Shortcuts</p>
+                <a href="#" class="button"><img src="{{url_for('static', filename ='images/shortcut-1.png')}}"> Cats</a>
+                <a href="#" class="button"><img src="{{url_for('static', filename ='images/shortcut-2.png')}}"> Nature</a>
+                <a href="#" class="button"><img src="{{url_for('static', filename ='images/shortcut-3.png')}}"> Travel</a>
+                <a href="#" class="button"><img src="{{url_for('static', filename ='images/shortcut-4.png')}}"> Minimalism</a>
+            </div>
+        </div>
+        <!--Central feed-->
+        <div class="main-content-post">
+                <div class="post-container"> <!---post 1-->
+                    <div class="post-row">
+                        <div class="user-profile">
+                            <img src="{{ url_for('static', filename='images/' + post.author.image_file) }}">
+                            <div>
+                                <p>{{ post.author.username }}</p>
+                                <span>{{ post.date_posted.strftime('%Y-%m-%d') }}</span>
+                                
+                                
+                            </div>
+                        </div>
+                        <img src="{{ url_for('static', filename='images/three-dots.png' ) }}" class="post-menu-icon" onclick="postMenuToggle(this)" data-post-id="{{ post.id }}">
+                            </div>
+                                <!--Dropodown menu for the post-->
+                                <div class="post-menu" id="post-menu-{{ post.id }}">
+                                    <div class="post-menu-inner">
+                                        {% if post.author == current_user %}
+                                            <div class="post-links">
+                                                <a href=""><img src="{{url_for('static', filename ='images/setting.png')}}" class="post-icon"></a>
+                                                <a class="btn btn-secondary btn-sm mt-1 mb-1 text-white" href="{{ url_for('update', post_id=post.id) }}">Edit</a>
+                                            </div>
+                                            <form method="POST", action="{{url_for('delete', post_id=post.id)}}">
+                                                <div class="post-links">
+                                                    <a href=""><img src="{{url_for('static', filename ='images/help.png')}}" class="post-icon"></a>
+                                                    <button type="submit" value="" class="btn btn-danger btn-sm m-1">Delete</button>
+                                                </div>
+                                            </form>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                        
+                    <p class="post-text">{{ post.title }}</p>
+                   <img src="{{ url_for('static', filename='images/post_images/' + post.content) }}" class="post-img">
+                   <div class="post-row">
+                    <div class="activity-icons">
+                        <div class="like-section" data-post-id="{{ post.id }}">
+                            <img src="{% if post.is_liked %}/static/images/like-blue.png{% else %}/static/images/like.png{% endif %}" class="like-image">
+                            <span class="like-count">{{ post.like_count }}</span>
+                        </div>
+                            <div><img src="{{url_for('static', filename ='images/comments.png')}}">0</div>
+                        </div>
+                    </div>
+                    <!--Comments-->
+                    <div class="post-comments">
+                        <h2>Comments</h2>
+                        <form action="{{ url_for('add_comment', post_id=post.id) }}" method="post">
+                            <textarea name="comment" placeholder="Type your comment here..."></textarea>
+                            <button type="submit">Comment</button>
+                        </form>
+                        {% for comment in post.comments %}
+                            <div class="comment">
+                                <small>{{ comment.author.username }} on {{ comment.date_posted.strftime('%Y-%m-%d') }}</small>
+                                <p>{{ comment.content }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+        </div>
+    </div>
+{% endblock content %}

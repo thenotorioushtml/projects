@@ -1,0 +1,164 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <!--Profile container-->
+    <div class="profile-container">
+    <img src="{{url_for('static', filename ='images/cover.png')}}" class="cover-img">
+    <div class="profile-details">
+        <div class="profile-details-left">
+            <div class="profile-details-row">
+                <img src="{{ image_file }}" class="profile-details-image">
+                <div class="user-settings">
+                    <h3>{{ current_user.username }}</h3>
+                    <p>{{ current_user.email }}<p>
+                    
+                    <p>83 Followers</p>
+                    <p>{{ number_posts }} posts</p>
+                </div>
+            </div>
+        </div>
+        <div class="profile-details-right">
+            <button type="button"><img src="{{url_for('static', filename ='images/add-friends.png')}}"> Friends</button>
+            <button type="button"><img src="{{url_for('static', filename ='images/message.png')}}"> Message</button>
+            <form method="POST" action="" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                <fieldset class="form_group">
+                    <div class="form-group">
+                        <p>Change your username</p>
+                        {% if form.username.errors %}
+                            {{ form.username(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.username.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.username(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <p>Change your profile picture</p>
+                        {{ form.picture(class='form-control-file') }}
+                        {% if form.picture.errors %}
+                            {% for error in form.picture.errors %}
+                                <span class="text-danger">{{ error }}</span></br>
+                            {% endfor %}
+                        {% endif %}   
+                    </div>
+                </fieldset>
+                <div class="form-group">
+                    {{ form.submit(class='post-submit-button') }}
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--Profile info-->
+    <div class="profile-info">
+        <div class="info-col">
+            <div class="profile-intro">
+                <h3>About myself</h3>
+                <p class="intro-text">Ready for my internship at McDonalds. Can't wait to flip some burgers!</p>
+                <hr>
+                <ul>
+                    <li><img src="{{url_for('static', filename ='images/profile-job.png')}}" alt=""> Burger flipper at McDonalds Italia</li>
+                    <li><img src="{{url_for('static', filename ='images/profile-study.png')}}" alt=""> Studied at H-Farm International College</li>
+                    <li><img src="{{url_for('static', filename ='images/profile-study.png')}}" alt=""> Future burger flipper at McDonalds</li>
+                    <li><img src="{{url_for('static', filename ='images/profile-home.png')}}" alt=""> Lives in Ronacade, Italy</li>
+                    <li><img src="{{url_for('static', filename ='images/profile-location.png')}}" alt=""> Venice, Italy</li>
+                </ul>
+            </div>
+
+            <div class="profile-intro">
+                <div class="title-box">
+                    <h3>Photos</h3>
+                    <a href="#">All photos</a>
+                </div>
+                
+                <div class="photo-box">
+                    <div><img src="{{url_for('static', filename ='images/photo1.png')}}"></div>
+                    <div><img src="{{url_for('static', filename ='images/photo2.png')}}"></div>
+                    <div><img src="{{url_for('static', filename ='images/photo3.png')}}"></div>
+                    <div><img src="{{url_for('static', filename ='images/photo4.png')}}"></div>
+                    <div><img src="{{url_for('static', filename ='images/photo5.png')}}"></div>
+                    <div><img src="{{url_for('static', filename ='images/photo6.png')}}"></div>
+                </div>
+            </div>
+            <div class="profile-intro">
+                <div class="title-box">
+                    <h3>Friends</h3>
+                    <a href="#">All friends</a>
+                </div>
+                <p>83 followers</p>
+                <div class="friends-box">
+                    <div><img src="{{url_for('static', filename ='images/member-1.png')}}"></div>
+                    <div><img src="{{url_for('static', filename ='images/member-2.png')}}"></div>
+                    <div><img src="{{url_for('static', filename ='images/member-3.png')}}"></div>
+                    <div><img src="{{url_for('static', filename ='images/member-4.png')}}"></div>
+                    <div><img src="{{url_for('static', filename ='images/member-5.png')}}"></div>
+                    <div><img src="{{url_for('static', filename ='images/member-6.png')}}"></div>
+                    <div><img src="{{url_for('static', filename ='images/member-7.png')}}"></div>
+                    <div><img src="{{url_for('static', filename ='images/member-8.png')}}"></div>
+                    <div><img src="{{url_for('static', filename ='images/member-9.png')}}"></div>
+                </div>
+            </div>
+        </div>
+        <!--Profile posts-->
+        <div class="post-col">
+            {% for post in posts %}
+                <div class="post-container"> <!---post 1-->
+                    <div class="post-row">
+                        <div class="user-profile">
+                            <img src="{{ url_for('static', filename='images/' + post.author.image_file) }}">
+                            <div>
+                                <p>{{ post.author.username }}</p>
+                                <span>{{ post.date_posted.strftime('%Y-%m-%d') }}</span>
+                            </div>
+                        </div>
+                        <img src="{{ url_for('static', filename='images/three-dots.png' ) }}" class="post-menu-icon" onclick="postMenuToggle(this)" data-post-id="{{ post.id }}">
+                        </div>
+                            <!--Dropodown menu for the post-->
+                            <div class="post-menu" id="post-menu-{{ post.id }}">
+                                <div class="post-menu-inner">
+                                    {% if post.author == current_user %}
+                                            <div class="post-links">
+                                                <a href=""><img src="{{url_for('static', filename ='images/setting.png')}}" class="post-icon"></a>
+                                                <a class="btn btn-secondary btn-sm mt-1 mb-1 text-white" href="{{ url_for('update', post_id=post.id) }}">Edit</a>
+                                            </div>
+                                            <form method="POST", action="{{url_for('delete', post_id=post.id)}}">
+                                                <div class="post-links">
+                                                    <a href=""><img src="{{url_for('static', filename ='images/help.png')}}" class="post-icon"></a>
+                                                    <button type="submit" value="" class="btn btn-danger btn-sm m-1">Delete</button>
+                                                </div>
+                                            </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                    <a href="{{ url_for('post', post_id = post.id)}}"><p class="post-text">{{ post.title }}</p></a>
+                    <a href="{{ url_for('post', post_id = post.id)}}"><img src="{{ url_for('static', filename='images/post_images/' + post.content) }}" class="post-img"></a>
+                    <div class="post-row">
+                        <div class="activity-icons">
+                            <div class="like-section" data-post-id="{{ post.id }}">
+                                <img src="{% if post.is_liked %}/static/images/like-blue.png{% else %}/static/images/like.png{% endif %}" class="like-image">
+                                <span class="like-count">{{ post.like_count }}</span>
+                            </div>
+                            <div><img src="{{url_for('static', filename ='images/comments.png')}}">0</div>
+                        </div>
+                    </div>
+                    <!--Comments-->
+                    <div class="post-comments">
+                        <h2>Comments</h2>
+                        <form action="{{ url_for('add_comment', post_id=post.id) }}" method="post">
+                            <textarea name="comment" placeholder="Type your comment here..."></textarea>
+                            <button type="submit">Comment</button>
+                        </form>
+                        {% for comment in post.comments %}
+                            <div class="comment">
+                                <small>{{ comment.author.username }} on {{ comment.date_posted.strftime('%Y-%m-%d') }}</small>
+                                <p>{{ comment.content }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}

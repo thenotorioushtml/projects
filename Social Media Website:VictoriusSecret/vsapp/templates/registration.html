@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Registration</title>
+        <link rel="stylesheet" href="{{url_for('static', filename ='css/style.css')}}">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+        <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script href="{{url_for('static', filename ='js/registration.js')}}"></script>
+        <!--Bootstrap JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/77800de9d7.js" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="{{url_for('static', filename ='js/script.js')}}" defer></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </head>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages%}
+            {% for category, message in messages%}
+                <div class='alert alert-{{ category }}'>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <body>
+        <div class="center">
+            <img src="{{url_for('static', filename ='images/black_logo.png')}}" class="logo">
+            <h1>Registration</h1>
+            <form id="registration-form" action="" method="POST">
+                {{ form.hidden_tag() }}
+                <div class="txt_field" id="txt_div_email">
+                    {% if form.email.errors %}
+                        {{ form.email(class='form-control form-control-lg is-invalid shadow-none') }}
+                        <div class='invalid-feedback'>
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.email(class='form-control form-control-lg shadow-none') }}
+                    {% endif %}
+                    <span></span>
+                    <label>Email</label>
+                </div>
+                <div class="txt_field" id="txt_div_username">
+                    {% if form.username.errors %}
+                        {{ form.username(class='form-control form-control-lg is-invalid shadow-none') }}
+                        <div class='invalid-feedback'>
+                            {% for error in form.username.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.username(class='form-control form-control-lg shadow-none') }}
+                    {% endif %}
+                    <span></span>
+                    <label>Username</label>
+                </div>
+                <div class="txt_field" id="txt_div_psw">
+                    {% if form.password.errors %}
+                        {{ form.password(class='form-control form-control-lg is-invalid shadow-none') }}
+                        <div class='invalid-feedback'>
+                            {% for error in form.password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.password(class='form-control form-control-lg shadow-none') }}
+                    {% endif %}
+                    <span></span>
+                    <label>Password</label>
+                </div>
+                <div class="txt_field" id="txt_div_confPsw">
+                    {% if form.confirm_password.errors %}
+                        {{ form.confirm_password(class='form-control form-control-lg is-invalid shadow-none') }}
+                        <div class='invalid-feedback'>
+                            {% for error in form.confirm_password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.confirm_password(class='form-control form-control-lg shadow-none') }}
+                    {% endif %}
+                    <span></span>
+                    <label>Confirm password</label>
+                </div>
+                {{ form.submit() }}
+                <div class="signup_link">
+                    Already have an account? <a href="{{ url_for('login')}}">Sign in</a>
+                </div>
+            </form>
+        </div>
+        <div class="footer">
+            <p>Copyright 2023 - VictoriousSecret - H-Farm</p>
+        </div>
+    </body>
+</html>

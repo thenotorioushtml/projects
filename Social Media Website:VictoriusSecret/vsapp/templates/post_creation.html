@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="container-post">
+        <div class="main-content-post">
+            {% if current_user.is_authenticated %}
+            <div class="write-post-container">
+                <div class="user-profile">
+                    <img src="{{ image_file }}">
+                    <div>
+                        <p>{{ current_user.username }}</p>
+                    </div>
+                </div>
+                <img id="image-preview" style="display: none;" class="image-preview">
+                <form method="POST" action="" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    <div class="post-input-container"> <!--Post input container-->
+                        {% if form.title.errors %}
+                            {{ form.title(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.title.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.title(class="form-control form-control-lg") }}
+                        {% endif %}
+                        <p>{{ form.public() }} Public <small class="globe"><i class="fa-solid fa-globe"></i>
+                        </small></p>
+                        <div class="add-post-links">
+                            <button class="upload-button"><img src="{{url_for('static', filename ='images/photo.png')}}">
+                                {{ form.content(class='form-control-file', id='content') }}
+                                    {% if form.content.errors %}
+                                        {% for error in form.content.errors %}
+                                            <span class="text-danger">{{ error }}</span></br>
+                                        {% endfor %}
+                                    {% endif %}
+                            </button>
+                        {{ form.submit(class='post-submit-button') }}
+                        </div>
+                    </div><!--Post input container-->
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}
