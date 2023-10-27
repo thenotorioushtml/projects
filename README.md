@@ -1,4 +1,4 @@
-# My Fun Projects Repository 🎉
+# My Projects Repository 🎉
 
 Welcome to my repository where I store all the coding projects that I work on for fun. This repo is a collection of various small projects, experiments, and code snippets, all created out of passion and curiosity.
 
